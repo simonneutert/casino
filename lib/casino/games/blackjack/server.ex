@@ -32,19 +32,16 @@ defmodule Casino.Games.Blackjack.Server do
 
   def init(state) do
     send(self, {:start})
-
     {:ok, state}
   end
 
   def handle_cast({:add, count}, state) do
     open_table(count)
-
     {:noreply, state + count}
   end
 
   def handle_cast({:remove}, state) do
     close_table(state)
-
     {:noreply, state}
   end
 
@@ -54,7 +51,6 @@ defmodule Casino.Games.Blackjack.Server do
 
   def handle_info({:start}, state) do
     open_table(state)
-
     {:noreply, state}
   end
 
@@ -78,7 +74,6 @@ defmodule Casino.Games.Blackjack.Server do
 
   defp start_table do
     {:ok, pid} = Casino.Games.Blackjack.TableSupervisor.start_table
-
     Process.monitor(pid)
   end
 
@@ -87,7 +82,6 @@ defmodule Casino.Games.Blackjack.Server do
     Supervisor.which_children(Casino.Games.Blackjack.TableSupervisor)
       |> List.last
       |> close_table
-
       state
   end
   defp close_table({_, pid, _, _}) when is_pid(pid) do

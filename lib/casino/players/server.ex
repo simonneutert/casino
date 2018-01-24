@@ -1,7 +1,7 @@
 defmodule Casino.Players.Server do
   use GenServer
 
-  # Client
+  # Client API
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -28,7 +28,11 @@ defmodule Casino.Players.Server do
     GenServer.call(__MODULE__, {:list})
   end
 
-  # Server
+  def show_info(id) do
+    GenServer.call(__MODULE__, {:show_info, id})
+  end
+
+  # Server API
 
   def init(:ok) do
     players = %{}
@@ -51,6 +55,12 @@ defmodule Casino.Players.Server do
     Process.exit(pid, :kill)
 
     {:noreply, {players, refs}}
+  end
+
+  def handle_call({:show_info, id}, _from, {players, _refs} = state) do
+    {name, pid, _ref} = Map.get(players, id)
+    list = %{id: id, name: name, balance: Casino.Players.Player.balance(pid)}
+    {:reply, list, state}
   end
 
   def handle_call({:list}, _from, {players, _refs} = state) do

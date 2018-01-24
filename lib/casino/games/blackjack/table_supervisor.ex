@@ -9,7 +9,6 @@ defmodule Casino.Games.Blackjack.TableSupervisor do
     children = [
       worker(Casino.Games.Blackjack.Table, [], restart: :temporary)
     ]
-
     supervise(children, strategy: :simple_one_for_one)
   end
 
