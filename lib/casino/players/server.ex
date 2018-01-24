@@ -36,7 +36,7 @@ defmodule Casino.Players.Server do
 
   def init(:ok) do
     players = %{}
-    refs    = %{}
+    refs = %{}
     {:ok, {players, refs}}
   end
 
@@ -64,9 +64,10 @@ defmodule Casino.Players.Server do
   end
 
   def handle_call({:list}, _from, {players, _refs} = state) do
-    list = Enum.map(players, fn {id, {name, pid, _ref}} ->
-      %{id: id, name: name, balance: Casino.Players.Player.balance(pid)}
-    end)
+    list =
+      Enum.map(players, fn {id, {name, pid, _ref}} ->
+        %{id: id, name: name, balance: Casino.Players.Player.balance(pid)}
+      end)
 
     {:reply, list, state}
   end
@@ -84,9 +85,10 @@ defmodule Casino.Players.Server do
   # Helpers
 
   defp auto_increment(map) when map == %{}, do: 1
+
   defp auto_increment(players) do
     Map.keys(players)
-      |> List.last
-      |> Kernel.+(1)
+    |> List.last()
+    |> Kernel.+(1)
   end
 end

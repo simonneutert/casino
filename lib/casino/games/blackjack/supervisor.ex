@@ -10,6 +10,7 @@ defmodule Casino.Games.Blackjack.Supervisor do
       supervisor(Casino.Games.Blackjack.TableSupervisor, []),
       worker(Casino.Games.Blackjack.Server, [4])
     ]
+
     supervise(children, strategy: :one_for_all)
   end
 end
