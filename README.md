@@ -14,6 +14,8 @@ Fire up <code>iex</code>:
 iex -S mix
 ```
 
+Fire up <code>:observer.start</code>.
+
 ## Usage
 ```elixir
 # Add a new player
